@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cittag0rf6vsh"]
+
+[ext_resource type="Script" uid="uid://p4g7wqnip6cc" path="res://scripts/sandwich.gd" id="1_ywgxc"]
+[ext_resource type="Texture2D" uid="uid://byx0y0osouwo3" path="res://assets/img/sandwich.png" id="2_hrgfl"]
+
+[node name="Sandwich" type="Node2D" unique_id=1363293240]
+script = ExtResource("1_ywgxc")
+
+[node name="Plate" type="Sprite2D" parent="." unique_id=1361947249]
+texture = ExtResource("2_hrgfl")
+region_enabled = true
+region_rect = Rect2(0, 448, 160, 32)
