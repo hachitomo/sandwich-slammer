@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cmbk15dgodl8b" path="res://assets/img/bg.png" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bvbys6va5yhll" path="res://scenes/ingredients.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cittag0rf6vsh" path="res://fab/sandwich.tscn" id="4_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://byx0y0osouwo3" path="res://assets/img/sandwich.png" id="5_iywne"]
 
 [node name="Game" type="Node2D" unique_id=2055669766]
 script = ExtResource("1_uwrxv")
@@ -15,145 +16,153 @@ centered = false
 [node name="Labels" type="CanvasGroup" parent="BG" unique_id=1997924116]
 
 [node name="Ham" type="Label" parent="BG/Labels" unique_id=1130992771]
-offset_left = 238.0
+offset_left = 127.0
 offset_top = 209.0
-offset_right = 336.0
+offset_right = 225.0
 offset_bottom = 243.0
 theme_override_font_sizes/font_size = 24
 text = "HAM"
 horizontal_alignment = 1
 
 [node name="Turkey" type="Label" parent="BG/Labels" unique_id=1135444281]
-offset_left = 406.0
+offset_left = 295.0
 offset_top = 209.0
-offset_right = 504.0
+offset_right = 393.0
 offset_bottom = 243.0
 theme_override_font_sizes/font_size = 24
 text = "TURKEY"
 horizontal_alignment = 1
 
 [node name="Tomato" type="Label" parent="BG/Labels" unique_id=2086899805]
-offset_left = 589.0
+offset_left = 478.0
 offset_top = 209.0
-offset_right = 692.0
+offset_right = 581.0
 offset_bottom = 243.0
 theme_override_font_sizes/font_size = 24
 text = "TOMATO"
 horizontal_alignment = 1
 
 [node name="Avocado" type="Label" parent="BG/Labels" unique_id=1989521993]
-offset_left = 755.0
+offset_left = 644.0
 offset_top = 209.0
-offset_right = 891.0
+offset_right = 780.0
 offset_bottom = 243.0
 theme_override_font_sizes/font_size = 24
 text = "AVOCADO"
 horizontal_alignment = 1
 
 [node name="Bacon" type="Label" parent="BG/Labels" unique_id=728567480]
-offset_left = 939.0
+offset_left = 828.0
 offset_top = 209.0
-offset_right = 1042.0
+offset_right = 931.0
 offset_bottom = 243.0
 theme_override_font_sizes/font_size = 24
 text = "BACON"
 horizontal_alignment = 1
 
 [node name="Cheddar" type="Label" parent="BG/Labels" unique_id=616849038]
-offset_left = 238.0
+offset_left = 127.0
 offset_top = 465.0
-offset_right = 336.0
+offset_right = 240.0
 offset_bottom = 499.0
 theme_override_font_sizes/font_size = 24
 text = "CHEDDAR"
 horizontal_alignment = 1
 
 [node name="Swiss" type="Label" parent="BG/Labels" unique_id=1903683589]
-offset_left = 406.0
+offset_left = 295.0
 offset_top = 465.0
-offset_right = 504.0
+offset_right = 393.0
 offset_bottom = 499.0
 theme_override_font_sizes/font_size = 24
 text = "SWISS"
 horizontal_alignment = 1
 
 [node name="Pickle" type="Label" parent="BG/Labels" unique_id=761553611]
-offset_left = 589.0
+offset_left = 478.0
 offset_top = 465.0
-offset_right = 692.0
+offset_right = 581.0
 offset_bottom = 499.0
 theme_override_font_sizes/font_size = 24
 text = "PICKLES"
 horizontal_alignment = 1
 
 [node name="Lettuce" type="Label" parent="BG/Labels" unique_id=259175406]
-offset_left = 755.0
+offset_left = 644.0
 offset_top = 465.0
-offset_right = 891.0
+offset_right = 780.0
 offset_bottom = 499.0
 theme_override_font_sizes/font_size = 24
 text = "LETTUCE"
 horizontal_alignment = 1
 
 [node name="Bread" type="Label" parent="BG/Labels" unique_id=1765175442]
-offset_left = 939.0
+offset_left = 828.0
 offset_top = 465.0
-offset_right = 1042.0
+offset_right = 931.0
 offset_bottom = 499.0
 theme_override_font_sizes/font_size = 24
 text = "BREAD"
 horizontal_alignment = 1
 
 [node name="Bread" parent="." unique_id=1888953636 instance=ExtResource("2_yqjtg")]
-position = Vector2(990, 429)
+position = Vector2(878, 429)
 count = 3
 
 [node name="Ham" parent="." unique_id=2057571717 instance=ExtResource("2_yqjtg")]
-position = Vector2(286, 169)
+position = Vector2(174, 169)
 ingredient = 1
 
 [node name="Turkey" parent="." unique_id=579534346 instance=ExtResource("2_yqjtg")]
-position = Vector2(455, 169)
+position = Vector2(343, 169)
 ingredient = 2
 
 [node name="Swiss" parent="." unique_id=541005828 instance=ExtResource("2_yqjtg")]
-position = Vector2(455, 429)
+position = Vector2(343, 429)
 ingredient = 3
 
 [node name="Cheddar" parent="." unique_id=1827041766 instance=ExtResource("2_yqjtg")]
-position = Vector2(286, 429)
+position = Vector2(174, 429)
 ingredient = 4
 
 [node name="Lettuce" parent="." unique_id=2100079749 instance=ExtResource("2_yqjtg")]
-position = Vector2(822, 429)
+position = Vector2(710, 429)
 ingredient = 5
 
 [node name="Avocado" parent="." unique_id=433016810 instance=ExtResource("2_yqjtg")]
-position = Vector2(822, 169)
+position = Vector2(710, 169)
 ingredient = 6
 
 [node name="Tomato" parent="." unique_id=1926637890 instance=ExtResource("2_yqjtg")]
-position = Vector2(640, 169)
+position = Vector2(528, 169)
 ingredient = 7
 
 [node name="Pickle" parent="." unique_id=995639045 instance=ExtResource("2_yqjtg")]
-position = Vector2(640, 429)
+position = Vector2(528, 429)
 ingredient = 8
 
 [node name="Bacon" parent="." unique_id=867990538 instance=ExtResource("2_yqjtg")]
-position = Vector2(990, 169)
+position = Vector2(878, 169)
 ingredient = 9
 
 [node name="Sandwich" parent="." unique_id=1363293240 instance=ExtResource("4_lbhrr")]
-position = Vector2(286, 698)
+position = Vector2(174, 698)
 
 [node name="Sandwich2" parent="." unique_id=1012697537 instance=ExtResource("4_lbhrr")]
-position = Vector2(640, 698)
+position = Vector2(528, 698)
 
 [node name="Sandwich3" parent="." unique_id=1596924699 instance=ExtResource("4_lbhrr")]
-position = Vector2(990, 698)
+position = Vector2(878, 698)
 
 [node name="InitDelayTimer" type="Timer" parent="." unique_id=658647169]
 wait_time = 0.5
+
+[node name="Cursor" type="Sprite2D" parent="." unique_id=1406696502]
+visible = false
+position = Vector2(174, 321)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_iywne")
+region_enabled = true
+region_rect = Rect2(162, 0, 155, 32)
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]

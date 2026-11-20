@@ -2,7 +2,11 @@ extends Node2D
 
 @export var ingredient_start_count: int = 12
 var init = true
+var selecting = false
 var count = 0
+
+var select_region = Rect2(166,41,81,88)
+var place_region = Rect2(162,0,155,32)
 
 var available_ingredients: Dictionary[Types.ingredient_type,int] = {}
 
@@ -15,6 +19,8 @@ func _process(_delta: float) -> void:
 	if init:
 		init_items()
 		init = false
+	if selecting:
+		pass
 
 func init_items() -> void:
 	# Reset all ingredients nodes to zero and add the starting ingredients
@@ -23,34 +29,42 @@ func init_items() -> void:
 
 # increase one of the ingredient source stacks by one
 func plus_ingredient() -> void:
-	var new_type: Types.ingredient_type
-	new_type = Types.random_ingredient()
-	var new_type_name = Types.ingredient_name(new_type)
-	match new_type:
-		#Types.ingredient_type.BREAD:
-			#$Bread.increase()
-		Types.ingredient_type.HAM:
-			$Ham.increase()
-		Types.ingredient_type.TURKEY:
-			$Turkey.increase()
-		Types.ingredient_type.SWISS:
-			$Swiss.increase()
-		Types.ingredient_type.CHEDDAR:
-			$Cheddar.increase()
-		Types.ingredient_type.LETTUCE:
-			$Lettuce.increase()
-		Types.ingredient_type.AVOCADO:
-			$Avocado.increase()
-		Types.ingredient_type.TOMATO:
-			$Tomato.increase()
-		Types.ingredient_type.PICKLE:
-			$Pickle.increase()
-		Types.ingredient_type.BACON:
-			$Bacon.increase()
-		_:
-			push_error("NOPE NOT A RANDOM INGREDIENT")
-	count += 1
-	record_add_ingredient(new_type)
+	
+	if not has_cheese():
+		add_cheese()
+	elif not has_veg():
+		add_veg()
+	elif not has_meat():
+		add_meat()
+	else:
+		var new_type: Types.ingredient_type
+		new_type = Types.random_ingredient()
+		#var new_type_name = Types.ingredient_name(new_type)
+		match new_type:
+			#Types.ingredient_type.BREAD:
+				#$Bread.increase()
+			Types.ingredient_type.HAM:
+				$Ham.increase()
+			Types.ingredient_type.TURKEY:
+				$Turkey.increase()
+			Types.ingredient_type.SWISS:
+				$Swiss.increase()
+			Types.ingredient_type.CHEDDAR:
+				$Cheddar.increase()
+			Types.ingredient_type.LETTUCE:
+				$Lettuce.increase()
+			Types.ingredient_type.AVOCADO:
+				$Avocado.increase()
+			Types.ingredient_type.TOMATO:
+				$Tomato.increase()
+			Types.ingredient_type.PICKLE:
+				$Pickle.increase()
+			Types.ingredient_type.BACON:
+				$Bacon.increase()
+			_:
+				push_error("NOPE NOT A RANDOM INGREDIENT")
+		count += 1
+		record_add_ingredient(new_type)
 
 func has_cheese() -> bool:
 	var has_swiss = available_ingredients.has(Types.ingredient_type.SWISS)
@@ -77,7 +91,7 @@ func has_meat() -> bool:
 	
 func add_meat() -> void:
 	var new_type = Types.meats.pick_random()
-	var new_type_name = Types.ingredient_name(new_type)
+	#var new_type_name = Types.ingredient_name(new_type)
 	match new_type:
 		Types.ingredient_type.HAM:
 			$Ham.increase()
@@ -99,7 +113,7 @@ func has_veg() -> bool:
 	
 func add_veg() -> void:
 	var new_type = Types.veggies.pick_random()
-	var new_type_name = Types.ingredient_name(new_type)
+	#var new_type_name = Types.ingredient_name(new_type)
 	match new_type:
 		Types.ingredient_type.LETTUCE:
 			$Lettuce.increase()
@@ -123,17 +137,8 @@ func record_add_ingredient(new_type: Types.ingredient_type) -> void:
 	
 
 func _on_init_delay_timer_timeout() -> void:
-	if not has_cheese():
-		print("Adding a cheese")
-		add_cheese()
-	elif not has_veg():
-		print("Adding a veg")
-		add_veg()
-	elif not has_meat():
-		print("Adding a meat")
-		add_meat()
+	if count < ingredient_start_count:
+		plus_ingredient()
 	else:
-		if count < ingredient_start_count:
-			plus_ingredient()
-		else:
-			$InitDelayTimer.stop()
+		$InitDelayTimer.stop()
+		selecting = true

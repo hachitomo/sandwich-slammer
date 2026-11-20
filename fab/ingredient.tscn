@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://cakoepgq5akxj"]
 
-[ext_resource type="Texture2D" uid="uid://byx0y0osouwo3" path="res://assets/img/sandwich.png" id="1_78uke"]
+[ext_resource type="Texture2D" uid="uid://doiexqtenywp8" path="res://assets/img/sandwich2.png" id="1_78uke"]
 [ext_resource type="Script" uid="uid://de8lwi3m54une" path="res://scripts/ingredient.gd" id="2_bs58s"]
 
 [node name="Ingredient" type="Sprite2D" unique_id=901877321]
 texture = ExtResource("1_78uke")
 region_enabled = true
+region_rect = Rect2(702, 201, 0, 1)
 script = ExtResource("2_bs58s")
 ingredient = null

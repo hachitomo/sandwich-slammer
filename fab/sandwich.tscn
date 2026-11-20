@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cittag0rf6vsh"]
 
 [ext_resource type="Script" uid="uid://p4g7wqnip6cc" path="res://scripts/sandwich.gd" id="1_ywgxc"]
-[ext_resource type="Texture2D" uid="uid://byx0y0osouwo3" path="res://assets/img/sandwich.png" id="2_hrgfl"]
+[ext_resource type="Texture2D" uid="uid://doiexqtenywp8" path="res://assets/img/sandwich2.png" id="2_hrgfl"]
 
 [node name="Sandwich" type="Node2D" unique_id=1363293240]
 script = ExtResource("1_ywgxc")
