@@ -4,7 +4,7 @@
 
 [node name="SelectableItems" type="Node2D" unique_id=1519003377]
 
-[node name="items" type="Node2D" parent="." unique_id=327180745]
+[node name="Items" type="Node2D" parent="." unique_id=327180745]
 
 [node name="Cursor" type="Sprite2D" parent="." unique_id=1688593800]
 texture = ExtResource("1_pfb7j")

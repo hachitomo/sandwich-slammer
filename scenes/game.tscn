@@ -157,7 +157,7 @@ position = Vector2(528, 698)
 position = Vector2(878, 698)
 
 [node name="InitDelayTimer" type="Timer" parent="." unique_id=658647169]
-wait_time = 0.5
+wait_time = 0.002
 
 [node name="IngredientSelections" parent="." unique_id=1519003377 instance=ExtResource("5_iywne")]
 script = ExtResource("6_p57ef")
