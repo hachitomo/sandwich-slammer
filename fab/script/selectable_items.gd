@@ -2,7 +2,7 @@ extends Node2D
 
 class_name SelectableItems
 
-@export var focused: bool = true
+@export var focused: bool = false
 @export var mode: Types.menu_modes
 @export var grid_columns: int = 99
 @export var cursor_offset: Vector2 = Vector2.ZERO
@@ -30,7 +30,7 @@ func _init(points: Array[Vector2] = []) -> void:
 func _ready() -> void:
 	items = $items
 	cursor = $Cursor
-	cursor.visible = true
+	cursor.visible = focused
 	cursor.region_enabled = true
 	cursor.region_rect = cursor_default_region
 
@@ -91,7 +91,7 @@ func set_mode(set_to: Types.menu_modes) -> void:
 	
 func set_focus(set_to: bool = true):
 	focused = set_to
-	cursor.visible = true
+	cursor.visible = set_to
 
 func set_cursor(index: int) -> void:
 	var item = get_item(index)

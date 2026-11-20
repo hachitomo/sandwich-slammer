@@ -3,9 +3,6 @@ extends Node2D
 @export var ingredient_start_count: int = 12
 @export var cursor_offset: Vector2 = Vector2.ZERO
 
-var ingredients_selection: SelectableItems
-# var plate_selections: SelectableItems
-
 var ingredient_zero_point: Vector2
 
 var init = true
@@ -22,9 +19,8 @@ signal clear_ingredients
 func _ready() -> void:
 	init = true
 	ingredient_zero_point = $Ham.position
-	ingredients_selection = SelectableItems.new()
-	ingredients_selection.set_mode(Types.menu_modes.grid)
-	ingredients_selection.set_cols(5)
+	$IngredientSelections.set_mode(Types.menu_modes.grid)
+	$IngredientSelections.set_cols(5)
 
 func _process(_delta: float) -> void:
 	if init:
@@ -187,4 +183,4 @@ func _on_init_delay_timer_timeout() -> void:
 		$InitDelayTimer.stop()
 		add_ingredient_points()
 		selecting = true
-		ingredients_selection.set_focus(true)
+		$IngredientSelections.set_focus(true)
