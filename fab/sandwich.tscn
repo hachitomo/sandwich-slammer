@@ -9,4 +9,4 @@ script = ExtResource("1_ywgxc")
 [node name="Plate" type="Sprite2D" parent="." unique_id=1361947249]
 texture = ExtResource("2_hrgfl")
 region_enabled = true
-region_rect = Rect2(0, 448, 160, 32)
+region_rect = Rect2(2, 478, 160, 32)

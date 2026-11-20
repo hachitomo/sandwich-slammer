@@ -6,6 +6,5 @@
 [node name="Ingredient" type="Sprite2D" unique_id=901877321]
 texture = ExtResource("1_78uke")
 region_enabled = true
-region_rect = Rect2(702, 201, 0, 1)
 script = ExtResource("2_bs58s")
 ingredient = null

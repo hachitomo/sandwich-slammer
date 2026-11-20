@@ -1,6 +1,13 @@
 extends Node2D
 
 @export var ingredient_start_count: int = 12
+@export var cursor_offset: Vector2 = Vector2.ZERO
+
+var ingredients_selection: SelectableItems
+# var plate_selections: SelectableItems
+
+var ingredient_zero_point: Vector2
+
 var init = true
 var selecting = false
 var count = 0
@@ -14,6 +21,10 @@ signal clear_ingredients
 
 func _ready() -> void:
 	init = true
+	ingredient_zero_point = $Ham.position
+	ingredients_selection = SelectableItems.new()
+	ingredients_selection.set_mode(Types.menu_modes.grid)
+	ingredients_selection.set_cols(5)
 
 func _process(_delta: float) -> void:
 	if init:
@@ -39,10 +50,7 @@ func plus_ingredient() -> void:
 	else:
 		var new_type: Types.ingredient_type
 		new_type = Types.random_ingredient()
-		#var new_type_name = Types.ingredient_name(new_type)
 		match new_type:
-			#Types.ingredient_type.BREAD:
-				#$Bread.increase()
 			Types.ingredient_type.HAM:
 				$Ham.increase()
 			Types.ingredient_type.TURKEY:
@@ -65,6 +73,32 @@ func plus_ingredient() -> void:
 				push_error("NOPE NOT A RANDOM INGREDIENT")
 		count += 1
 		record_add_ingredient(new_type)
+
+func get_igdts(type: Types.ingredient_type) -> Node2D:
+	match type:
+		Types.ingredient_type.BREAD:
+			return $Bread
+		Types.ingredient_type.HAM:
+			return $Ham
+		Types.ingredient_type.TURKEY:
+			return $Turkey
+		Types.ingredient_type.SWISS:
+			return $Swiss
+		Types.ingredient_type.CHEDDAR:
+			return $Cheddar
+		Types.ingredient_type.LETTUCE:
+			return $Lettuce
+		Types.ingredient_type.AVOCADO:
+			return $Avocado
+		Types.ingredient_type.TOMATO:
+			return $Tomato
+		Types.ingredient_type.PICKLE:
+			return $Pickle
+		Types.ingredient_type.BACON:
+			return $Bacon
+		_:
+			push_error("NOPE NOT AN IGDTS NODE!")
+			return null
 
 func has_cheese() -> bool:
 	var has_swiss = available_ingredients.has(Types.ingredient_type.SWISS)
@@ -134,11 +168,23 @@ func record_add_ingredient(new_type: Types.ingredient_type) -> void:
 		available_ingredients.set(new_type,existing+1)
 	else:
 		available_ingredients.set(new_type,1)
-	
+
+func add_ingredient_points() -> void:
+	var points: Dictionary[Types.ingredient_type,Vector2] = {}
+	for type in Types.ingredients_no_bread:
+		var _pos = get_ingredient_selection_point(type)
+		points.set(type, _pos)
+	$IngredientSelections.set_items(points)
+		
+
+func get_ingredient_selection_point(igdt: Types.ingredient_type) -> Vector2:
+	return get_igdts(igdt).position + cursor_offset
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:
 		plus_ingredient()
 	else:
 		$InitDelayTimer.stop()
+		add_ingredient_points()
 		selecting = true
+		ingredients_selection.set_focus(true)

@@ -7,19 +7,8 @@ class_name Ingredient
 func _init(igdt: Types.ingredient_type) -> void:
 	texture = load("res://assets/img/sandwich2.png")
 	self.ingredient = igdt
-	print("Creating new ingredient: ",igdt)
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	var ingredient_name = type_to_string(ingredient)
-	region_enabled = true
-	region_rect = Types.get_ingredient_crop(ingredient)
-	print("Adding new ",ingredient_name, region_rect)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+	self.region_enabled = true
+	self.region_rect = Types.get_ingredient_crop(ingredient)
 
 
 func type_to_string(igdt: Types.ingredient_type) -> String:

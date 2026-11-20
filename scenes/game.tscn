@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://cmbk15dgodl8b" path="res://assets/img/bg.png" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bvbys6va5yhll" path="res://scenes/ingredients.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cittag0rf6vsh" path="res://fab/sandwich.tscn" id="4_lbhrr"]
-[ext_resource type="Texture2D" uid="uid://byx0y0osouwo3" path="res://assets/img/sandwich.png" id="5_iywne"]
+[ext_resource type="PackedScene" uid="uid://eag84b1t6nt6" path="res://fab/SelectableItems.tscn" id="5_iywne"]
+[ext_resource type="Script" uid="uid://043dx4rgwmqn" path="res://fab/script/selectable_items.gd" id="6_p57ef"]
+[ext_resource type="Texture2D" uid="uid://doiexqtenywp8" path="res://assets/img/sandwich2.png" id="7_u5sy4"]
 
 [node name="Game" type="Node2D" unique_id=2055669766]
 script = ExtResource("1_uwrxv")
@@ -105,45 +107,45 @@ theme_override_font_sizes/font_size = 24
 text = "BREAD"
 horizontal_alignment = 1
 
-[node name="Bread" parent="." unique_id=1888953636 instance=ExtResource("2_yqjtg")]
-position = Vector2(878, 429)
-count = 3
-
 [node name="Ham" parent="." unique_id=2057571717 instance=ExtResource("2_yqjtg")]
 position = Vector2(174, 169)
-ingredient = 1
 
 [node name="Turkey" parent="." unique_id=579534346 instance=ExtResource("2_yqjtg")]
-position = Vector2(343, 169)
-ingredient = 2
-
-[node name="Swiss" parent="." unique_id=541005828 instance=ExtResource("2_yqjtg")]
-position = Vector2(343, 429)
-ingredient = 3
-
-[node name="Cheddar" parent="." unique_id=1827041766 instance=ExtResource("2_yqjtg")]
-position = Vector2(174, 429)
-ingredient = 4
-
-[node name="Lettuce" parent="." unique_id=2100079749 instance=ExtResource("2_yqjtg")]
-position = Vector2(710, 429)
-ingredient = 5
-
-[node name="Avocado" parent="." unique_id=433016810 instance=ExtResource("2_yqjtg")]
-position = Vector2(710, 169)
-ingredient = 6
+position = Vector2(352, 169)
+ingredient = 1
 
 [node name="Tomato" parent="." unique_id=1926637890 instance=ExtResource("2_yqjtg")]
 position = Vector2(528, 169)
-ingredient = 7
+ingredient = 2
 
-[node name="Pickle" parent="." unique_id=995639045 instance=ExtResource("2_yqjtg")]
-position = Vector2(528, 429)
-ingredient = 8
+[node name="Avocado" parent="." unique_id=433016810 instance=ExtResource("2_yqjtg")]
+position = Vector2(710, 169)
+ingredient = 3
 
 [node name="Bacon" parent="." unique_id=867990538 instance=ExtResource("2_yqjtg")]
 position = Vector2(878, 169)
+ingredient = 4
+
+[node name="Cheddar" parent="." unique_id=1827041766 instance=ExtResource("2_yqjtg")]
+position = Vector2(174, 429)
+ingredient = 5
+
+[node name="Swiss" parent="." unique_id=541005828 instance=ExtResource("2_yqjtg")]
+position = Vector2(343, 429)
+ingredient = 6
+
+[node name="Pickle" parent="." unique_id=995639045 instance=ExtResource("2_yqjtg")]
+position = Vector2(528, 429)
+ingredient = 7
+
+[node name="Lettuce" parent="." unique_id=2100079749 instance=ExtResource("2_yqjtg")]
+position = Vector2(710, 429)
+ingredient = 8
+
+[node name="Bread" parent="." unique_id=1888953636 instance=ExtResource("2_yqjtg")]
+position = Vector2(878, 429)
 ingredient = 9
+count = 3
 
 [node name="Sandwich" parent="." unique_id=1363293240 instance=ExtResource("4_lbhrr")]
 position = Vector2(174, 698)
@@ -157,12 +159,11 @@ position = Vector2(878, 698)
 [node name="InitDelayTimer" type="Timer" parent="." unique_id=658647169]
 wait_time = 0.5
 
-[node name="Cursor" type="Sprite2D" parent="." unique_id=1406696502]
-visible = false
-position = Vector2(174, 321)
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("5_iywne")
-region_enabled = true
-region_rect = Rect2(162, 0, 155, 32)
+[node name="IngredientSelections" parent="." unique_id=1519003377 instance=ExtResource("5_iywne")]
+script = ExtResource("6_p57ef")
+mode = 2
+grid_columns = 5
+cursor_texture = ExtResource("7_u5sy4")
+cursor_default_region = Rect2(171, 66, 74, 96)
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]
