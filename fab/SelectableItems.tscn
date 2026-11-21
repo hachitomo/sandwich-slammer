@@ -10,3 +10,5 @@
 texture = ExtResource("1_pfb7j")
 region_enabled = true
 region_rect = Rect2(171, 66, 75, 95)
+
+[node name="Timer" type="Timer" parent="." unique_id=2081395176]

@@ -5,20 +5,25 @@ extends Node2D
 
 @onready var bg_player: AudioStreamPlayer = $BGMusicPlayer
 @onready var sfx_player: AudioStreamPlayer = $SFXPlayer
+const sandwich_texture = preload("res://assets/img/sandwich2.png")
+const menu_bg_music = preload("res://assets/audio/knives.mp3")
 const game_bg_music = preload("res://assets/audio/which-wich.mp3")
 const knife_sfx = preload("res://assets/audio/sfx/knife.wav")
 const glass_sfx = preload("res://assets/audio/sfx/glassclink.wav")
 const plate_sfx = preload("res://assets/audio/sfx/plate.wav")
+const wrong_sfx = preload("res://assets/audio/sfx/wrong.wav")
 #const waiting_bg_music = preload("res://assets/audio/knives.mp3")
 
 var ingredient_zero_point: Vector2
+var selected_igdt: Types.ingredient_type
 
 var init = true
 var selecting = false
+var menu = true
 var count = 0
 
-var select_region = Rect2(166,41,81,88)
-var place_region = Rect2(162,0,155,32)
+#var select_region = Rect2(166,41,81,88)
+#var place_region = Rect2(162,0,155,32)
 
 var available_ingredients: Dictionary[Types.ingredient_type,int] = {Types.ingredient_type.BREAD: 3}
 
@@ -29,12 +34,12 @@ func _ready() -> void:
 	ingredient_zero_point = $Ham.position
 	$IngredientSelections.set_mode(Types.menu_modes.grid)
 	$IngredientSelections.set_cols(5)
-	$IngredientSelections.set_accept(select_ingredient)
+	$IngredientSelections.selected.connect(select_ingredient)
+	$SandwichSelections.selected.connect(select_sandwich)
+	add_ingredient_points()
+	add_sandwich_points()
 
 func _process(_delta: float) -> void:
-	if not $BGMusicPlayer.playing:
-		$BGMusicPlayer.stream = game_bg_music
-		$BGMusicPlayer.play()
 	if init:
 		init_items()
 		init = false
@@ -133,7 +138,6 @@ func has_meat() -> bool:
 	
 func add_meat() -> void:
 	var new_type = Types.meats.pick_random()
-	#var new_type_name = Types.ingredient_name(new_type)
 	match new_type:
 		Types.ingredient_type.HAM:
 			$Ham.increase()
@@ -184,24 +188,73 @@ func add_ingredient_points() -> void:
 		points.set(type, _pos)
 	$IngredientSelections.set_items(points)
 
+func add_sandwich_points() -> void:
+	var points: Dictionary[int,Vector2] = {
+		0: Vector2(175,475),
+		1: Vector2(528,475),
+		2: Vector2(878,475),
+	}
+	$SandwichSelections.set_items(points)
+	
+
 func get_ingredient_selection_point(igdt: Types.ingredient_type) -> Vector2:
 	return get_igdts(igdt).position + cursor_offset
-	
+
 func select_ingredient(igdt: Types.ingredient_type) -> void:
 	if not available_ingredients.has(igdt) or available_ingredients.get(igdt) < 1:
-		print("Can't select ",Types.ingredient_name(igdt)," - none left!")
+		play_sfx(wrong_sfx)
 	else:
-		print(Types.ingredient_name(igdt)," selected!") 
+		var selected_igdts = get_igdts(igdt)
+		if selected_igdts != null and selected_igdts is Ingredients:
+			selected_igdts.decrease()
+			selecting = false
+			selected_igdt = igdt
+			
+			# add the ingredient selected to the items cursor with offset
+			var new_igdt_preview = Sprite2D.new()
+			new_igdt_preview.texture = sandwich_texture
+			new_igdt_preview.region_enabled = true
+			new_igdt_preview.region_rect = Types.get_ingredient_crop(igdt)
+			new_igdt_preview.position.y = $SandwichSelections.get_node("Cursor").region_rect.size.y # 31
+			$SandwichSelections.get_node("Cursor").add_child(new_igdt_preview)
+			print("Ingredients:")
+			$IngredientSelections.set_focus(false)
+			print("Sandwich:")
+			$SandwichSelections.set_focus(true)
+
+func select_sandwich(sandwich_idx: int) -> void:
+	match sandwich_idx:
+		0:
+			$Sandwich1.add_ingredient(selected_igdt)
+		1:
+			$Sandwich2.add_ingredient(selected_igdt)
+		2:
+			$Sandwich3.add_ingredient(selected_igdt)
+	print("Sandwich:")
+	$SandwichSelections.set_focus(false)
+	print("Ingredients:")
+	$IngredientSelections.set_focus(true)
+	selecting = true
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:
-		if $SFXPlayer.playing:
-			$SFXPlayer.stop()
-		$SFXPlayer.stream = [knife_sfx,plate_sfx,glass_sfx].pick_random()
-		$SFXPlayer.play()
+		play_sfx([knife_sfx,plate_sfx,glass_sfx].pick_random())
 		plus_ingredient()
 	else:
 		$InitDelayTimer.stop()
-		add_ingredient_points()
 		selecting = true
+		print("Setup ingredients:")
 		$IngredientSelections.set_focus(true)
+		play_music(game_bg_music)
+
+func play_music(music: Resource) -> void:
+	if $BGMusicPlayer.playing:
+		$BGMusicPlayer.stop()
+	$BGMusicPlayer.stream = music
+	$BGMusicPlayer.play()
+
+func play_sfx(sfx: Resource) -> void:
+	if $SFXPlayer.playing:
+		$SFXPlayer.stop()
+	$SFXPlayer.stream = sfx
+	$SFXPlayer.play()

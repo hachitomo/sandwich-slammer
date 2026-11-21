@@ -10,10 +10,14 @@ class_name SelectableItems
 @export var cursor_default_region: Rect2
 @export var rollover: bool = false
 
+@onready var timer: Timer = $Timer
+
+signal selected(selection)
+
 var item_map: Dictionary[Types.ingredient_type,Vector2] = {}
 
 var cursor_index: int = 0
-
+var enabled: bool = false
 var accept_callback: Callable
 
 func _init(points: Array[Vector2] = []) -> void:
@@ -34,13 +38,22 @@ func _ready() -> void:
 	$Cursor.visible = focused
 	$Cursor.region_enabled = true
 	$Cursor.region_rect = cursor_default_region
+	timer.wait_time = 0.25
+	timer.one_shot = true
+	timer.timeout.connect(_timer_timeout)
+
+func _timer_timeout() -> void:
+	self.enabled = true
+	timer.stop()
 
 func _process(_delta: float) -> void:
+	if not (enabled and focused):
+		return
 	
 	var input := Vector2.ZERO
 	
 	if Input.is_action_just_pressed("ui_accept"):
-		self.accept_callback.call(cursor_index)
+		selected.emit(cursor_index)
 		return
 	
 	if Input.is_action_just_pressed("ui_up"):
@@ -59,10 +72,8 @@ func _process(_delta: float) -> void:
 			set_cursor(cursor_index + int(input.x))
 		Types.menu_modes.grid:
 			if input.x != 0:
-				print("from: ",cursor_index," to: ",cursor_index + int(input.x))
 				set_cursor(cursor_index + int(input.x))
 			if input.y != 0:
-				print("from: ",cursor_index," to: ",cursor_index + int(input.y))
 				set_cursor(cursor_index + int(input.y * grid_columns))
 
 func get_item_position(index: int) -> Vector2:
@@ -78,7 +89,7 @@ func get_item_position(index: int) -> Vector2:
 	
 	return pos
 
-func set_items(_items: Dictionary[Types.ingredient_type,Vector2]) -> void:
+func set_items(_items: Dictionary[int,Vector2]) -> void:
 	for child in $Items.get_children():
 		$Items.remove_child(child)
 	for _item in _items.keys():
@@ -94,6 +105,9 @@ func set_mode(set_to: Types.menu_modes) -> void:
 func set_focus(set_to: bool = true):
 	focused = set_to
 	$Cursor.visible = set_to
+	self.enabled = false
+	timer.start()
+	print("Focus set to ",set_to)
 
 func set_cursor(index: int) -> void:
 	var item = get_item_position(index)
@@ -105,6 +119,3 @@ func set_cursor(index: int) -> void:
 
 func set_cols(cols: int) -> void:
 	grid_columns = cols
-	
-func set_accept(cb: Callable) -> void:
-	self.accept_callback = cb

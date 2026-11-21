@@ -25,6 +25,8 @@ func update_items() -> void:
 		items.append(new_item)
 	if count < items.size():
 		items = items.slice(0,count)
+		while get_child_count() > count:
+			remove_child(get_child(count))
 
 func increase() -> void:
 	count = round(count  + 1)

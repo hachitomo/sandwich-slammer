@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cmg316inuai46"]
 
 [ext_resource type="Script" uid="uid://d0w2bqiy574k7" path="res://scenes/game.gd" id="1_uwrxv"]
-[ext_resource type="Texture2D" uid="uid://cmbk15dgodl8b" path="res://assets/img/bg.png" id="2_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://13vmkbjjbq1i" path="res://assets/img/bg2.png" id="2_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://bvbys6va5yhll" path="res://scenes/ingredients.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cittag0rf6vsh" path="res://fab/sandwich.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://eag84b1t6nt6" path="res://fab/SelectableItems.tscn" id="5_iywne"]
@@ -12,7 +12,7 @@
 script = ExtResource("1_uwrxv")
 
 [node name="BG" type="Sprite2D" parent="." unique_id=1320374319]
-texture = ExtResource("2_lbhrr")
+texture = ExtResource("2_u5sy4")
 centered = false
 
 [node name="Labels" type="CanvasGroup" parent="BG" unique_id=1997924116]
@@ -147,8 +147,8 @@ position = Vector2(878, 429)
 ingredient = 9
 count = 3
 
-[node name="Sandwich" parent="." unique_id=1363293240 instance=ExtResource("4_lbhrr")]
-position = Vector2(174, 698)
+[node name="Sandwich1" parent="." unique_id=1363293240 instance=ExtResource("4_lbhrr")]
+position = Vector2(175, 698)
 
 [node name="Sandwich2" parent="." unique_id=1012697537 instance=ExtResource("4_lbhrr")]
 position = Vector2(528, 698)
@@ -167,8 +167,16 @@ cursor_texture = ExtResource("7_u5sy4")
 cursor_default_region = Rect2(171, 66, 74, 96)
 
 [node name="BGMusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1070563403]
-volume_db = -4.0
+volume_db = -6.0
 
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="." unique_id=777464840]
+
+[node name="SandwichSelections" parent="." unique_id=229850661 instance=ExtResource("5_iywne")]
+script = ExtResource("6_p57ef")
+mode = 1
+grid_columns = 3
+cursor_offset = Vector2(0, -150)
+cursor_texture = ExtResource("7_u5sy4")
+cursor_default_region = Rect2(36, 3, 148, 31)
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]
