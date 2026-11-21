@@ -157,7 +157,7 @@ position = Vector2(528, 698)
 position = Vector2(878, 698)
 
 [node name="InitDelayTimer" type="Timer" parent="." unique_id=658647169]
-wait_time = 0.002
+wait_time = 0.5
 
 [node name="IngredientSelections" parent="." unique_id=1519003377 instance=ExtResource("5_iywne")]
 script = ExtResource("6_p57ef")
@@ -165,5 +165,10 @@ mode = 2
 grid_columns = 5
 cursor_texture = ExtResource("7_u5sy4")
 cursor_default_region = Rect2(171, 66, 74, 96)
+
+[node name="BGMusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1070563403]
+volume_db = -4.0
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="." unique_id=777464840]
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]

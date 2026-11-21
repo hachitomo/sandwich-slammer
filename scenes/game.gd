@@ -3,6 +3,14 @@ extends Node2D
 @export var ingredient_start_count: int = 12
 @export var cursor_offset: Vector2 = Vector2.ZERO
 
+@onready var bg_player: AudioStreamPlayer = $BGMusicPlayer
+@onready var sfx_player: AudioStreamPlayer = $SFXPlayer
+const game_bg_music = preload("res://assets/audio/which-wich.mp3")
+const knife_sfx = preload("res://assets/audio/sfx/knife.wav")
+const glass_sfx = preload("res://assets/audio/sfx/glassclink.wav")
+const plate_sfx = preload("res://assets/audio/sfx/plate.wav")
+#const waiting_bg_music = preload("res://assets/audio/knives.mp3")
+
 var ingredient_zero_point: Vector2
 
 var init = true
@@ -24,6 +32,9 @@ func _ready() -> void:
 	$IngredientSelections.set_accept(select_ingredient)
 
 func _process(_delta: float) -> void:
+	if not $BGMusicPlayer.playing:
+		$BGMusicPlayer.stream = game_bg_music
+		$BGMusicPlayer.play()
 	if init:
 		init_items()
 		init = false
@@ -184,6 +195,10 @@ func select_ingredient(igdt: Types.ingredient_type) -> void:
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:
+		if $SFXPlayer.playing:
+			$SFXPlayer.stop()
+		$SFXPlayer.stream = [knife_sfx,plate_sfx,glass_sfx].pick_random()
+		$SFXPlayer.play()
 		plus_ingredient()
 	else:
 		$InitDelayTimer.stop()
