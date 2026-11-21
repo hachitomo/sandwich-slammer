@@ -7,6 +7,7 @@ enum menu_modes {vertical, horizontal,grid}
 static var cheeses: Array[ingredient_type] = [ingredient_type.SWISS,ingredient_type.CHEDDAR]
 static var veggies: Array[ingredient_type] = [ingredient_type.LETTUCE,ingredient_type.AVOCADO,ingredient_type.TOMATO,ingredient_type.PICKLE]
 static var meats: Array[ingredient_type] = [ingredient_type.HAM,ingredient_type.TURKEY,ingredient_type.BACON]
+static var ingredients: Array[ingredient_type] = [ingredient_type.SWISS,ingredient_type.CHEDDAR,ingredient_type.LETTUCE,ingredient_type.AVOCADO,ingredient_type.TOMATO,ingredient_type.PICKLE,ingredient_type.HAM,ingredient_type.TURKEY,ingredient_type.BACON,ingredient_type.BREAD]
 static var ingredients_no_bread: Array[ingredient_type] = [ingredient_type.SWISS,ingredient_type.CHEDDAR,ingredient_type.LETTUCE,ingredient_type.AVOCADO,ingredient_type.TOMATO,ingredient_type.PICKLE,ingredient_type.HAM,ingredient_type.TURKEY,ingredient_type.BACON]
 
 static var CURSOR_PALM_CROP = Rect2(36,3,148,31)

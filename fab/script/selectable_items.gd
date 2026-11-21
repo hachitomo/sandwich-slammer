@@ -1,4 +1,4 @@
-extends Node2D
+extends Node2D 
 
 class_name SelectableItems
 
@@ -13,6 +13,8 @@ class_name SelectableItems
 var item_map: Dictionary[Types.ingredient_type,Vector2] = {}
 
 var cursor_index: int = 0
+
+var accept_callback: Callable
 
 func _init(points: Array[Vector2] = []) -> void:
 	for i in range(points.size()):
@@ -37,6 +39,10 @@ func _process(_delta: float) -> void:
 	
 	var input := Vector2.ZERO
 	
+	if Input.is_action_just_pressed("ui_accept"):
+		self.accept_callback.call(cursor_index)
+		return
+	
 	if Input.is_action_just_pressed("ui_up"):
 		input.y = -1
 	if Input.is_action_just_pressed("ui_down"):
@@ -60,21 +66,19 @@ func _process(_delta: float) -> void:
 				set_cursor(cursor_index + int(input.y * grid_columns))
 
 func get_item_position(index: int) -> Vector2:
-	print(item_map.values())
+	var curval = item_map.get(cursor_index)
 	if item_map.size() == 0:
-		return Vector2.ZERO
-	if index < 0 or index > item_map.size():
-		return Vector2.ZERO
+		return Vector2(-100,-100)
+	if index < 0 or index >= item_map.size():
+		return curval
 	
 	if not item_map.has(index):
-		return Vector2.ZERO
+		return curval
 	var pos = item_map.get(index)
 	
-	print("To: ",pos)
 	return pos
 
 func set_items(_items: Dictionary[Types.ingredient_type,Vector2]) -> void:
-	print(_items)
 	for child in $Items.get_children():
 		$Items.remove_child(child)
 	for _item in _items.keys():
@@ -93,7 +97,7 @@ func set_focus(set_to: bool = true):
 
 func set_cursor(index: int) -> void:
 	var item = get_item_position(index)
-	if item == null:
+	if item == null or index < 0 or index >= item_map.size():
 		return
 	
 	$Cursor.global_position = Vector2(item.x, item.y)
@@ -101,3 +105,6 @@ func set_cursor(index: int) -> void:
 
 func set_cols(cols: int) -> void:
 	grid_columns = cols
+	
+func set_accept(cb: Callable) -> void:
+	self.accept_callback = cb

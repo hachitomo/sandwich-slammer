@@ -12,7 +12,7 @@ var count = 0
 var select_region = Rect2(166,41,81,88)
 var place_region = Rect2(162,0,155,32)
 
-var available_ingredients: Dictionary[Types.ingredient_type,int] = {}
+var available_ingredients: Dictionary[Types.ingredient_type,int] = {Types.ingredient_type.BREAD: 3}
 
 signal clear_ingredients
 
@@ -21,6 +21,7 @@ func _ready() -> void:
 	ingredient_zero_point = $Ham.position
 	$IngredientSelections.set_mode(Types.menu_modes.grid)
 	$IngredientSelections.set_cols(5)
+	$IngredientSelections.set_accept(select_ingredient)
 
 func _process(_delta: float) -> void:
 	if init:
@@ -167,14 +168,19 @@ func record_add_ingredient(new_type: Types.ingredient_type) -> void:
 
 func add_ingredient_points() -> void:
 	var points: Dictionary[Types.ingredient_type,Vector2] = {}
-	for type in Types.ingredients_no_bread:
+	for type in Types.ingredients:
 		var _pos = get_ingredient_selection_point(type)
 		points.set(type, _pos)
 	$IngredientSelections.set_items(points)
-		
 
 func get_ingredient_selection_point(igdt: Types.ingredient_type) -> Vector2:
 	return get_igdts(igdt).position + cursor_offset
+	
+func select_ingredient(igdt: Types.ingredient_type) -> void:
+	if not available_ingredients.has(igdt) or available_ingredients.get(igdt) < 1:
+		print("Can't select ",Types.ingredient_name(igdt)," - none left!")
+	else:
+		print(Types.ingredient_name(igdt)," selected!") 
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:
