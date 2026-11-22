@@ -16,6 +16,7 @@ const knife_sfx = preload("res://assets/audio/sfx/knife.wav")
 const glass_sfx = preload("res://assets/audio/sfx/glassclink.wav")
 const plate_sfx = preload("res://assets/audio/sfx/plate.wav")
 const wrong_sfx = preload("res://assets/audio/sfx/wrong.wav")
+const slam_sfx = preload("res://assets/audio/sfx/slam.wav")
 #const waiting_bg_music = preload("res://assets/audio/knives.mp3")
 
 var ingredient_zero_point: Vector2
@@ -242,6 +243,7 @@ func select_sandwich(sandwich_idx: int) -> void:
 		cursor.remove_child(cursor.get_child(0))
 	$SandwichSelections.set_focus(false)
 	$IngredientSelections.set_focus(true)
+	play_sfx(slam_sfx)
 	selecting = true
 	for i in range(3):
 		var stack_size = [$Sandwich1,$Sandwich2,$Sandwich3][i].size()
