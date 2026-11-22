@@ -2,6 +2,8 @@ extends Node2D
 
 class_name Sandwich
 
+const sandwich_texture = preload("res://assets/img/sandwich2.png")
+
 # DING DING DING IT'S THE THEME!!! :D
 var layers: Array[Types.ingredient_type] = []
 
@@ -19,8 +21,10 @@ func update_items() -> void:
 		var new_idx = $Layers.get_child_count()
 		var new_item = Sprite2D.new()
 		new_item.region_enabled = true
+		new_item.texture = sandwich_texture
 		new_item.region_rect = Types.get_ingredient_crop(layers[new_idx])
-		new_item.position.y = new_idx * -32
+		new_item.position = position
+		new_item.offset.y = (new_idx+1) * -32
 		$Layers.add_child(new_item)
 	while $Layers.get_child_count() > layers.size():
 		$Layers.remove_child($Layers.get_child($Layers.get_child_count()))

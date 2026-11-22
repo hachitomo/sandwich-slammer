@@ -230,6 +230,9 @@ func select_sandwich(sandwich_idx: int) -> void:
 	if selected_igdt != Types.ingredient_type.BREAD:
 		var existing: int = available_ingredients.get(selected_igdt) if available_ingredients.has(selected_igdt) else 0
 		available_ingredients.set(selected_igdt,existing-1)
+	var cursor = $SandwichSelections.get_node("Cursor")
+	while cursor.get_child_count() > 0:
+		cursor.remove_child(cursor.get_child(0))
 	$SandwichSelections.set_focus(false)
 	$IngredientSelections.set_focus(true)
 	selecting = true

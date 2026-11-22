@@ -1,3 +1,5 @@
 [gd_scene format=3 uid="uid://cqvqt5t57wx5o"]
 
 [node name="Sandwich" type="Node2D" unique_id=1801520574]
+
+[node name="Layers" type="CanvasLayer" parent="." unique_id=1127317274]
