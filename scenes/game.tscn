@@ -160,6 +160,9 @@ position = Vector2(878, 698)
 [node name="InitDelayTimer" type="Timer" parent="." unique_id=658647169]
 wait_time = 0.5
 
+[node name="ReplenishmentTimer" type="Timer" parent="." unique_id=1933189254]
+wait_time = 0.5
+
 [node name="IngredientSelections" parent="." unique_id=1519003377 instance=ExtResource("5_iywne")]
 script = ExtResource("6_p57ef")
 mode = 2
@@ -185,3 +188,4 @@ position = Vector2(1162, 406)
 scale = Vector2(2, 3.5)
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]
+[connection signal="timeout" from="ReplenishmentTimer" to="." method="_on_replenish_timer_timeout"]

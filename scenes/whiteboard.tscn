@@ -14,25 +14,28 @@ texture = ExtResource("1_q8y3l")
 region_enabled = true
 region_rect = Rect2(215, 338, 99, 162)
 
-[node name="Specials" type="VBoxContainer" parent="BG" unique_id=1276349011]
-offset_left = -42.0
-offset_top = -19.0
-offset_right = 40.0
-offset_bottom = 7.0
-
-[node name="SpecialsLabelSprite" type="Sprite2D" parent="BG/Specials" unique_id=1080627983]
-position = Vector2(42, -30.75)
+[node name="SpecialsLabelSprite" type="Sprite2D" parent="." unique_id=1080627983]
+position = Vector2(0, -49.75)
 scale = Vector2(1, 0.8684211)
 texture = ExtResource("1_q8y3l")
 region_enabled = true
 region_rect = Rect2(330, 342, 84, 57)
 
-[node name="DailySpecial" type="Label" parent="BG/Specials" unique_id=1559664848]
-layout_mode = 2
+[node name="Specials" type="VBoxContainer" parent="." unique_id=1276349011]
+offset_left = -42.0
+offset_top = -19.0
+offset_right = 40.0
+offset_bottom = 74.0
 
-[node name="HSeparator" type="HSeparator" parent="BG/Specials" unique_id=1219605247]
+[node name="DailySpecial" type="Label" parent="Specials" unique_id=1559664848]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Specials" unique_id=1219605247]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_7us60")
 
-[node name="Orders" type="VBoxContainer" parent="BG/Specials" unique_id=1995495848]
+[node name="Orders" type="VBoxContainer" parent="Specials" unique_id=1995495848]
 layout_mode = 2

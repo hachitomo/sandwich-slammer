@@ -17,6 +17,7 @@ const glass_sfx = preload("res://assets/audio/sfx/glassclink.wav")
 const plate_sfx = preload("res://assets/audio/sfx/plate.wav")
 const wrong_sfx = preload("res://assets/audio/sfx/wrong.wav")
 const slam_sfx = preload("res://assets/audio/sfx/slam.wav")
+const orderup_sfx = preload("res://assets/audio/sfx/orderup.wav")
 #const waiting_bg_music = preload("res://assets/audio/knives.mp3")
 
 var ingredient_zero_point: Vector2
@@ -27,6 +28,8 @@ var selecting = false
 var refresh_points = false
 var menu = true
 var count = 0
+var replenish_amount = 3
+var cur_replenish_amout = 0
 
 #var select_region = Rect2(166,41,81,88)
 #var place_region = Rect2(162,0,155,32)
@@ -43,8 +46,27 @@ func _ready() -> void:
 	$IngredientSelections.selected.connect(select_ingredient)
 	$SandwichSelections.selected.connect(select_sandwich)
 	$Sandwich1.orderup.connect($SpecialsBoard.score)
+	$Sandwich1.orderup.connect(orderup_sound)
+	$Sandwich1.orderup.connect(replenish_ingredients)
 	add_ingredient_points()
 	add_sandwich_points()
+
+func orderup_sound(_order: Order) -> void:
+	play_sfx(plate_sfx)
+	var _t = Timer.new()
+	_t.wait_time = 0.5
+	_t.one_shot = true
+	_t.timeout.connect(_order_up_play.bind(_t))
+	add_child(_t)
+	_t.start()
+
+func replenish_ingredients(_order: Order) -> void:
+	if replenish_amount > 0:
+		$ReplenishmentTimer.start()
+
+func _order_up_play(_t: Timer):
+	play_sfx(orderup_sfx)
+	remove_child(_t)
 
 func _process(_delta: float) -> void:
 	if init:
@@ -266,8 +288,16 @@ func _on_init_delay_timer_timeout() -> void:
 		$IngredientSelections.set_focus(true)
 		play_music(game_bg_music)
 
-func serve_sandwich() -> void:
-	pass
+func _on_replenish_timer_timeout() -> void:
+	selecting = false
+	if replenish_amount > 0 and cur_replenish_amout < replenish_amount:
+		plus_ingredient()
+		cur_replenish_amout += 1
+	elif replenish_amount > 0:
+		cur_replenish_amout = 0
+		replenish_amount -= 1
+		$ReplenishmentTimer.stop()
+		selecting = true
 
 func play_music(music: Resource) -> void:
 	if $BGMusicPlayer.playing:
