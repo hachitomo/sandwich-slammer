@@ -5,16 +5,14 @@ class_name Sandwich
 const sandwich_texture = preload("res://assets/img/sandwich2.png")
 
 # DING DING DING IT'S THE THEME!!! :D
-var layers: Array[Types.ingredient_type] = []
+var layers: Array[Types.ingredient_type] = [Types.ingredient_type.BREAD]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
 	pass
+	
+func _process(_delta: float) -> void:
+	update_items()
 
 func update_items() -> void:
 	while $Layers.get_child_count() < layers.size():
@@ -31,4 +29,6 @@ func update_items() -> void:
 
 func add_ingredient(igdt: Types.ingredient_type) -> void:
 	layers.append(igdt)
-	update_items()
+
+func size() -> int:
+	return $Layers.get_child_count()

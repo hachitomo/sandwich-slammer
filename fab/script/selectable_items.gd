@@ -14,7 +14,8 @@ class_name SelectableItems
 
 signal selected(selection)
 
-var item_map: Dictionary[Types.ingredient_type,Vector2] = {}
+var item_map: Dictionary[int,Vector2] = {}
+var offset_map: Dictionary[int,Vector2] = {}
 
 var cursor_index: int = 0
 var enabled: bool = false
@@ -38,7 +39,7 @@ func _ready() -> void:
 	$Cursor.visible = focused
 	$Cursor.region_enabled = true
 	$Cursor.region_rect = cursor_default_region
-	timer.wait_time = 0.25
+	timer.wait_time = 0.05
 	timer.one_shot = true
 	timer.timeout.connect(_timer_timeout)
 
@@ -79,7 +80,8 @@ func _process(_delta: float) -> void:
 func get_item_position(index: int) -> Vector2:
 	var curval = item_map.get(cursor_index)
 	if item_map.size() == 0:
-		return Vector2(-100,-100)
+		printerr("get item position called with no items!")
+		return Vector2.ZERO
 	if index < 0 or index >= item_map.size():
 		return curval
 	
@@ -95,6 +97,9 @@ func set_items(_items: Dictionary[int,Vector2]) -> void:
 	for _item in _items.keys():
 		item_map.set(_item,_items.get(_item))
 	set_cursor(0)
+
+func set_offset(item: int, offset: Vector2) -> void:
+	offset_map.set(item,offset)
 
 func set_rollover(set_to: bool = true):
 	rollover = set_to
@@ -114,7 +119,8 @@ func set_cursor(index: int) -> void:
 	if item == null or index < 0 or index >= item_map.size():
 		return
 	
-	$Cursor.global_position = Vector2(item.x, item.y)
+	var offset = offset_map.get(index) if offset_map.has(index) else Vector2.ZERO
+	$Cursor.global_position = Vector2(item.x, item.y) + offset
 	cursor_index = index
 
 func set_cols(cols: int) -> void:

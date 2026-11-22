@@ -19,6 +19,7 @@ var selected_igdt: Types.ingredient_type
 
 var init = true
 var selecting = false
+var refresh_points = false
 var menu = true
 var count = 0
 
@@ -43,8 +44,14 @@ func _process(_delta: float) -> void:
 	if init:
 		init_items()
 		init = false
-	if selecting:
-		pass
+	if refresh_points:
+		for i in range(3):
+			var stack_size = [$Sandwich1,$Sandwich2,$Sandwich3][i].size()
+			if stack_size > 3:
+				$SandwichSelections.set_offset(i,Vector2(0,(stack_size - 3) * -32))
+		
+		refresh_points = false
+			
 
 func init_items() -> void:
 	# Reset all ingredients nodes to zero and add the starting ingredients
@@ -218,6 +225,7 @@ func select_ingredient(igdt: Types.ingredient_type) -> void:
 			$IngredientSelections.set_focus(false)
 			print("Sandwich:")
 			$SandwichSelections.set_focus(true)
+			
 
 func select_sandwich(sandwich_idx: int) -> void:
 	match sandwich_idx:
@@ -236,6 +244,7 @@ func select_sandwich(sandwich_idx: int) -> void:
 	$SandwichSelections.set_focus(false)
 	$IngredientSelections.set_focus(true)
 	selecting = true
+	refresh_points = true
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:
