@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://eag84b1t6nt6" path="res://fab/SelectableItems.tscn" id="5_iywne"]
 [ext_resource type="Script" uid="uid://043dx4rgwmqn" path="res://fab/script/selectable_items.gd" id="6_p57ef"]
 [ext_resource type="Texture2D" uid="uid://doiexqtenywp8" path="res://assets/img/sandwich2.png" id="7_u5sy4"]
+[ext_resource type="PackedScene" uid="uid://o7jk8fm8qs4d" path="res://scenes/whiteboard.tscn" id="8_gee14"]
 
 [node name="Game" type="Node2D" unique_id=2055669766]
 script = ExtResource("1_uwrxv")
@@ -178,5 +179,9 @@ grid_columns = 3
 cursor_offset = Vector2(0, -150)
 cursor_texture = ExtResource("7_u5sy4")
 cursor_default_region = Rect2(36, 3, 148, 31)
+
+[node name="Node2D" parent="." unique_id=1391044385 instance=ExtResource("8_gee14")]
+position = Vector2(1145, 499)
+scale = Vector2(2, 2.5)
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]

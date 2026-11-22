@@ -1,5 +1,9 @@
 extends Node2D
 
+#TODO general
+# - Menu before start
+# - Round with duration (Clock indicator?)
+
 @export var ingredient_start_count: int = 12
 @export var cursor_offset: Vector2 = Vector2.ZERO
 
@@ -44,14 +48,7 @@ func _process(_delta: float) -> void:
 	if init:
 		init_items()
 		init = false
-	if refresh_points:
-		for i in range(3):
-			var stack_size = [$Sandwich1,$Sandwich2,$Sandwich3][i].size()
-			if stack_size > 3:
-				$SandwichSelections.set_offset(i,Vector2(0,(stack_size - 3) * -32))
-		
-		refresh_points = false
-			
+
 
 func init_items() -> void:
 	# Reset all ingredients nodes to zero and add the starting ingredients
@@ -191,6 +188,7 @@ func add_ingredient_points() -> void:
 		var _pos = get_ingredient_selection_point(type)
 		points.set(type, _pos)
 	$IngredientSelections.set_items(points)
+	$IngredientSelections.set_cursor(0)
 
 func add_sandwich_points() -> void:
 	var points: Dictionary[int,Vector2] = {
@@ -199,6 +197,7 @@ func add_sandwich_points() -> void:
 		2: Vector2(878,475),
 	}
 	$SandwichSelections.set_items(points)
+	$SandwichSelections.set_cursor(0)
 	
 
 func get_ingredient_selection_point(igdt: Types.ingredient_type) -> Vector2:
@@ -244,7 +243,10 @@ func select_sandwich(sandwich_idx: int) -> void:
 	$SandwichSelections.set_focus(false)
 	$IngredientSelections.set_focus(true)
 	selecting = true
-	refresh_points = true
+	for i in range(3):
+		var stack_size = [$Sandwich1,$Sandwich2,$Sandwich3][i].size()
+		if stack_size > 3:
+			$SandwichSelections.set_offset(i,Vector2(0,(stack_size - 3) * -32))
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:

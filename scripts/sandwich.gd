@@ -4,6 +4,9 @@ class_name Sandwich
 
 const sandwich_texture = preload("res://assets/img/sandwich2.png")
 
+#TODO
+# signal orderup()
+
 # DING DING DING IT'S THE THEME!!! :D
 var layers: Array[Types.ingredient_type] = [Types.ingredient_type.BREAD]
 
@@ -29,6 +32,20 @@ func update_items() -> void:
 
 func add_ingredient(igdt: Types.ingredient_type) -> void:
 	layers.append(igdt)
+
+#TODO
+# check for basic combos, recipe matches, sauce multipliers(?)
+# might need several subprocedures, write out pros and cons to map for output?
+# maybe even make an order class with a score and itemized list combo? (Resource or class?)
+func score_sandwich() -> int:
+	#TODO
+	# replenish_ingredients(amount?)
+	return 0
+
+#TODO
+# reset to just bread, clear out layers and child sprites - & LATER - animate?
+func reset() -> void:
+	pass
 
 func size() -> int:
 	return $Layers.get_child_count()

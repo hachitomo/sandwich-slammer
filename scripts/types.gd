@@ -1,5 +1,8 @@
 class_name Types
 
+#TODO
+# define recipes somehow here
+
 enum ingredient_type {HAM=0,TURKEY=1,TOMATO=2,AVOCADO=3,BACON=4,CHEDDAR=5,SWISS=6,PICKLE=7,LETTUCE=8,BREAD=9}
 enum sauce {MUSTARD,MAYO,RANCH}
 enum menu_modes {vertical, horizontal,grid}

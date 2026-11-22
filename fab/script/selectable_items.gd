@@ -1,5 +1,8 @@
 extends Node2D 
 
+#TODO
+# WHY DOES THE CURSOR ADJUST ONLY AFTER REFOCUSING??? >:(
+
 class_name SelectableItems
 
 @export var focused: bool = false
@@ -79,6 +82,8 @@ func _process(_delta: float) -> void:
 
 func get_item_position(index: int) -> Vector2:
 	var curval = item_map.get(cursor_index)
+	if offset_map.has(index):
+		curval += offset_map.get(index)
 	if item_map.size() == 0:
 		printerr("get item position called with no items!")
 		return Vector2.ZERO
@@ -91,15 +96,19 @@ func get_item_position(index: int) -> Vector2:
 	
 	return pos
 
+# repaint markers, e.g. on stack resize
+func reset_items() -> void:
+	set_items(item_map)
+
 func set_items(_items: Dictionary[int,Vector2]) -> void:
 	for child in $Items.get_children():
 		$Items.remove_child(child)
 	for _item in _items.keys():
 		item_map.set(_item,_items.get(_item))
-	set_cursor(0)
 
 func set_offset(item: int, offset: Vector2) -> void:
 	offset_map.set(item,offset)
+	reset_items()
 
 func set_rollover(set_to: bool = true):
 	rollover = set_to
