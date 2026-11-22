@@ -50,14 +50,8 @@ func score_sandwich() -> void:
 
 func get_recipe_match() -> Types.recipe:
 	
-	if has_cheese() and not has_veg() and not has_cheese():
-		return Types.recipe.GRILLED_CHEESE
-	
-	if layers.has(Types.ingredient_type.HAM) and layers.has(Types.ingredient_type.SWISS):
-		return Types.recipe.HAM_SWISS
-	
-	if not layers.has(Types.ingredient_type.TURKEY) and [Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO].all(func(igdt): return layers.has(igdt)):
-		return Types.recipe.BLT
+	if [Types.ingredient_type.TURKEY,Types.ingredient_type.AVOCADO,Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO,Types.ingredient_type.SWISS,Types.ingredient_type.CHEDDAR].all(func(igdt): return layers.has(igdt)):
+		return Types.recipe.CREEKSIDE
 	
 	if [Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO].all(func(igdt): return layers.has(igdt)):
 		return Types.recipe.TURKEY_CLUB
@@ -66,8 +60,14 @@ func get_recipe_match() -> Types.recipe:
 	if [Types.ingredient_type.HAM,Types.ingredient_type.SWISS,Types.ingredient_type.PICKLE].all(func(igdt): return layers.has(igdt)):
 		return Types.recipe.CUBANO
 	
-	if [Types.ingredient_type.TURKEY,Types.ingredient_type.AVOCADO,Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO,Types.ingredient_type.SWISS,Types.ingredient_type.CHEDDAR].all(func(igdt): return layers.has(igdt)):
-		return Types.recipe.CREEKSIDE
+	if not layers.has(Types.ingredient_type.TURKEY) and [Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO].all(func(igdt): return layers.has(igdt)):
+		return Types.recipe.BLT
+	
+	if layers.has(Types.ingredient_type.HAM) and layers.has(Types.ingredient_type.SWISS):
+		return Types.recipe.HAM_SWISS
+	
+	if has_cheese() and not has_veg() and not has_meat():
+		return Types.recipe.GRILLED_CHEESE
 	
 	return Types.recipe.NONE
 
