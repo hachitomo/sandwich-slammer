@@ -85,7 +85,7 @@ func get_item_position(index: int) -> Vector2:
 	if offset_map.has(index):
 		curval += offset_map.get(index)
 	if item_map.size() == 0:
-		printerr("get item position called with no items!")
+		push_error("get item position called with no items!")
 		return Vector2.ZERO
 	if index < 0 or index >= item_map.size():
 		return curval

@@ -20,18 +20,19 @@ offset_top = -19.0
 offset_right = 40.0
 offset_bottom = 7.0
 
-[node name="Label" type="Label" parent="BG/Specials" unique_id=1559664848]
+[node name="SpecialsLabelSprite" type="Sprite2D" parent="BG/Specials" unique_id=1080627983]
+position = Vector2(42, -30.75)
+scale = Vector2(1, 0.8684211)
+texture = ExtResource("1_q8y3l")
+region_enabled = true
+region_rect = Rect2(330, 342, 84, 57)
+
+[node name="DailySpecial" type="Label" parent="BG/Specials" unique_id=1559664848]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="BG" unique_id=1219605247]
-offset_left = -40.0
-offset_top = 7.0
-offset_right = 39.0
-offset_bottom = 11.0
+[node name="HSeparator" type="HSeparator" parent="BG/Specials" unique_id=1219605247]
+layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_7us60")
 
-[node name="Orders" type="VBoxContainer" parent="BG" unique_id=1995495848]
-offset_left = -42.0
-offset_top = 11.0
-offset_right = 40.0
-offset_bottom = 74.0
+[node name="Orders" type="VBoxContainer" parent="BG/Specials" unique_id=1995495848]
+layout_mode = 2

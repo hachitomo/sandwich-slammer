@@ -42,6 +42,7 @@ func _ready() -> void:
 	$IngredientSelections.set_cols(5)
 	$IngredientSelections.selected.connect(select_ingredient)
 	$SandwichSelections.selected.connect(select_sandwich)
+	$Sandwich1.orderup.connect($SpecialsBoard.score)
 	add_ingredient_points()
 	add_sandwich_points()
 
@@ -228,27 +229,31 @@ func select_ingredient(igdt: Types.ingredient_type) -> void:
 			
 
 func select_sandwich(sandwich_idx: int) -> void:
+	var wich: Sandwich
 	match sandwich_idx:
 		0:
-			$Sandwich1.add_ingredient(selected_igdt)
+			wich = $Sandwich1
 		1:
-			$Sandwich2.add_ingredient(selected_igdt)
+			wich = $Sandwich2
 		2:
-			$Sandwich3.add_ingredient(selected_igdt)
+			wich = $Sandwich3
+	wich.add_ingredient(selected_igdt)
 	if selected_igdt != Types.ingredient_type.BREAD:
 		var existing: int = available_ingredients.get(selected_igdt) if available_ingredients.has(selected_igdt) else 0
 		available_ingredients.set(selected_igdt,existing-1)
 	var cursor = $SandwichSelections.get_node("Cursor")
 	while cursor.get_child_count() > 0:
 		cursor.remove_child(cursor.get_child(0))
-	$SandwichSelections.set_focus(false)
-	$IngredientSelections.set_focus(true)
-	play_sfx(slam_sfx)
-	selecting = true
 	for i in range(3):
 		var stack_size = [$Sandwich1,$Sandwich2,$Sandwich3][i].size()
 		if stack_size > 3:
 			$SandwichSelections.set_offset(i,Vector2(0,(stack_size - 3) * -32))
+	if selected_igdt == Types.ingredient_type.BREAD:
+		wich.score_sandwich()
+	$SandwichSelections.set_focus(false)
+	$IngredientSelections.set_focus(true)
+	play_sfx(slam_sfx)
+	selecting = true
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:
@@ -260,6 +265,9 @@ func _on_init_delay_timer_timeout() -> void:
 		print("Setup ingredients:")
 		$IngredientSelections.set_focus(true)
 		play_music(game_bg_music)
+
+func serve_sandwich() -> void:
+	pass
 
 func play_music(music: Resource) -> void:
 	if $BGMusicPlayer.playing:

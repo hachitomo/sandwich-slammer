@@ -180,8 +180,8 @@ cursor_offset = Vector2(0, -150)
 cursor_texture = ExtResource("7_u5sy4")
 cursor_default_region = Rect2(36, 3, 148, 31)
 
-[node name="Node2D" parent="." unique_id=1391044385 instance=ExtResource("8_gee14")]
-position = Vector2(1145, 499)
-scale = Vector2(2, 2.5)
+[node name="SpecialsBoard" parent="." unique_id=1391044385 instance=ExtResource("8_gee14")]
+position = Vector2(1162, 406)
+scale = Vector2(2, 3.5)
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]
