@@ -10,3 +10,5 @@ script = ExtResource("1_ywgxc")
 texture = ExtResource("2_hrgfl")
 region_enabled = true
 region_rect = Rect2(2, 478, 160, 32)
+
+[node name="Layers" type="CanvasLayer" parent="." unique_id=1653352223]

@@ -85,7 +85,8 @@ func plus_ingredient() -> void:
 			_:
 				push_error("NOPE NOT A RANDOM INGREDIENT")
 		count += 1
-		record_add_ingredient(new_type)
+		var existing: int = available_ingredients.get(new_type) if available_ingredients.has(new_type) else 0
+		available_ingredients.set(new_type,existing+1)
 
 func get_igdts(type: Types.ingredient_type) -> Node2D:
 	match type:
@@ -128,7 +129,8 @@ func add_cheese() -> void:
 		_:
 			push_error("NOPE NOT A CHEESE")
 	count += 1
-	record_add_ingredient(new_type)
+	var existing: int = available_ingredients.get(new_type) if available_ingredients.has(new_type) else 0
+	available_ingredients.set(new_type,existing+1)
 	
 func has_meat() -> bool:
 	var has_ham = available_ingredients.has(Types.ingredient_type.HAM)
@@ -148,7 +150,8 @@ func add_meat() -> void:
 		_:
 			push_error("NOPE NOT A MEAT")
 	count += 1
-	record_add_ingredient(new_type)
+	var existing: int = available_ingredients.get(new_type) if available_ingredients.has(new_type) else 0
+	available_ingredients.set(new_type,existing+1)
 
 func has_veg() -> bool:
 	var has_lettuce = available_ingredients.has(Types.ingredient_type.LETTUCE)
@@ -172,14 +175,8 @@ func add_veg() -> void:
 		_:
 			push_error("NOPE NOT A VEG")
 	count += 1
-	record_add_ingredient(new_type)
-
-func record_add_ingredient(new_type: Types.ingredient_type) -> void:
-	if available_ingredients.has(new_type):
-		var existing = available_ingredients.get(new_type)
-		available_ingredients.set(new_type,existing+1)
-	else:
-		available_ingredients.set(new_type,1)
+	var existing: int = available_ingredients.get(new_type) if available_ingredients.has(new_type) else 0
+	available_ingredients.set(new_type,existing+1)
 
 func add_ingredient_points() -> void:
 	var points: Dictionary[Types.ingredient_type,Vector2] = {}
@@ -230,9 +227,10 @@ func select_sandwich(sandwich_idx: int) -> void:
 			$Sandwich2.add_ingredient(selected_igdt)
 		2:
 			$Sandwich3.add_ingredient(selected_igdt)
-	print("Sandwich:")
+	if selected_igdt != Types.ingredient_type.BREAD:
+		var existing: int = available_ingredients.get(selected_igdt) if available_ingredients.has(selected_igdt) else 0
+		available_ingredients.set(selected_igdt,existing-1)
 	$SandwichSelections.set_focus(false)
-	print("Ingredients:")
 	$IngredientSelections.set_focus(true)
 	selecting = true
 
