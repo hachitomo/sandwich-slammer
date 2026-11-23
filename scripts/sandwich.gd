@@ -53,15 +53,15 @@ func get_recipe_match() -> Types.recipe:
 	if [Types.ingredient_type.TURKEY,Types.ingredient_type.AVOCADO,Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO,Types.ingredient_type.SWISS,Types.ingredient_type.CHEDDAR].all(func(igdt): return layers.has(igdt)):
 		return Types.recipe.CREEKSIDE
 	
-	if [Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO].all(func(igdt): return layers.has(igdt)):
+	if not layers.has(Types.ingredient_type.TURKEY) and [Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO].all(func(igdt): return layers.has(igdt)):
+		return Types.recipe.BLT
+	
+	if [Types.ingredient_type.TURKEY,Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO].all(func(igdt): return layers.has(igdt)):
 		return Types.recipe.TURKEY_CLUB
 	
 	#TODO: mustard
 	if [Types.ingredient_type.HAM,Types.ingredient_type.SWISS,Types.ingredient_type.PICKLE].all(func(igdt): return layers.has(igdt)):
 		return Types.recipe.CUBANO
-	
-	if not layers.has(Types.ingredient_type.TURKEY) and [Types.ingredient_type.BACON,Types.ingredient_type.LETTUCE,Types.ingredient_type.TOMATO].all(func(igdt): return layers.has(igdt)):
-		return Types.recipe.BLT
 	
 	if layers.has(Types.ingredient_type.HAM) and layers.has(Types.ingredient_type.SWISS):
 		return Types.recipe.HAM_SWISS

@@ -22,7 +22,7 @@ region_enabled = true
 region_rect = Rect2(330, 342, 84, 57)
 
 [node name="Specials" type="VBoxContainer" parent="." unique_id=1276349011]
-clip_children = 2
+custom_maximum_size = Vector2(-1, 90)
 clip_contents = true
 offset_left = -42.0
 offset_top = -19.0
