@@ -73,7 +73,7 @@ static func get_ingredient_crop(type: Types.ingredient_type) -> Rect2:
 static func ingredient_base_score(igdt: ingredient_type) -> int:
 	match igdt:
 		Types.ingredient_type.BREAD:
-			return 100
+			return 0
 		Types.ingredient_type.HAM:
 			return 200
 		Types.ingredient_type.TURKEY:

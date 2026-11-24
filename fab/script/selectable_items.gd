@@ -16,6 +16,7 @@ class_name SelectableItems
 @onready var timer: Timer = $Timer
 
 signal selected(selection)
+signal hover(selection)
 
 var item_map: Dictionary[int,Vector2] = {}
 var offset_map: Dictionary[int,Vector2] = {}
@@ -131,6 +132,7 @@ func set_cursor(index: int) -> void:
 	var offset = offset_map.get(index) if offset_map.has(index) else Vector2.ZERO
 	$Cursor.global_position = Vector2(item.x, item.y) + offset
 	cursor_index = index
+	hover.emit(index)
 
 func set_cols(cols: int) -> void:
 	grid_columns = cols

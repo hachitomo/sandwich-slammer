@@ -9,6 +9,7 @@ extends Node2D
 
 @onready var bg_player: AudioStreamPlayer = $BGMusicPlayer
 @onready var sfx_player: AudioStreamPlayer = $SFXPlayer
+@onready var labels: CanvasGroup = $BG/Labels
 const sandwich_texture = preload("res://assets/img/sandwich2.png")
 const menu_bg_music = preload("res://assets/audio/knives.mp3")
 const game_bg_music = preload("res://assets/audio/which-wich.mp3")
@@ -22,6 +23,8 @@ const orderup_sfx = preload("res://assets/audio/sfx/orderup.wav")
 
 var ingredient_zero_point: Vector2
 var selected_igdt: Types.ingredient_type
+var selected_label: Label
+var tween: Tween
 
 var init = true
 var selecting = false
@@ -44,6 +47,7 @@ func _ready() -> void:
 	$IngredientSelections.set_mode(Types.menu_modes.grid)
 	$IngredientSelections.set_cols(5)
 	$IngredientSelections.selected.connect(select_ingredient)
+	$IngredientSelections.hover.connect(flash_label)
 	$SandwichSelections.selected.connect(select_sandwich)
 	$Sandwich1.orderup.connect($SpecialsBoard.score)
 	$Sandwich1.orderup.connect(orderup_sound)
@@ -72,6 +76,11 @@ func _process(_delta: float) -> void:
 	if init:
 		init_items()
 		init = false
+	
+	if not selecting:
+		if tween:
+			selected_label.modulate = Color.WHITE
+			tween.kill()
 
 
 func init_items() -> void:
@@ -141,6 +150,23 @@ func get_igdts(type: Types.ingredient_type) -> Node2D:
 		_:
 			push_error("NOPE NOT AN IGDTS NODE!")
 			return null
+			
+			
+func flash_label(type: Types.ingredient_type) -> void:
+	if not selecting:
+		return
+	if selected_label:
+		selected_label.modulate = Color.WHITE
+	selected_label = labels.get_child(type)
+	if not selected_label:
+		push_error("Label to flash not found!")
+		return
+	if tween:
+		tween.kill()
+	tween = get_tree().create_tween()
+	tween.set_loops()
+	tween.tween_property(selected_label, "modulate", Color.RED, 0.5)
+	tween.tween_property(selected_label, "modulate", Color.WHITE, 0.5)
 
 func has_cheese() -> bool:
 	var has_swiss = available_ingredients.has(Types.ingredient_type.SWISS)
@@ -276,6 +302,7 @@ func select_sandwich(sandwich_idx: int) -> void:
 	$IngredientSelections.set_focus(true)
 	play_sfx(slam_sfx)
 	selecting = true
+	flash_label(selected_igdt)
 
 func _on_init_delay_timer_timeout() -> void:
 	if count < ingredient_start_count:
@@ -284,6 +311,7 @@ func _on_init_delay_timer_timeout() -> void:
 	else:
 		$InitDelayTimer.stop()
 		selecting = true
+		flash_label(selected_igdt)
 		print("Setup ingredients:")
 		$IngredientSelections.set_focus(true)
 		play_music(game_bg_music)
