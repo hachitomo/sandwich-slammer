@@ -19,19 +19,18 @@ const plate_sfx = preload("res://assets/audio/sfx/plate.wav")
 const wrong_sfx = preload("res://assets/audio/sfx/wrong.wav")
 const slam_sfx = preload("res://assets/audio/sfx/slam.wav")
 const orderup_sfx = preload("res://assets/audio/sfx/orderup.wav")
-#const waiting_bg_music = preload("res://assets/audio/knives.mp3")
+const waiting_bg_music = preload("res://assets/audio/knives.mp3")
 
 var ingredient_zero_point: Vector2
 var selected_igdt: Types.ingredient_type
 var selected_label: Label
 var tween: Tween
+var game_state: Types.game_state = Types.game_state.MAIN_MENU
 
-var init = true
 var selecting = false
 var refresh_points = false
-var menu = true
 var count = 0
-var replenish_amount = 3
+var replenish_amount = 5
 var cur_replenish_amout = 0
 
 #var select_region = Rect2(166,41,81,88)
@@ -42,7 +41,6 @@ var available_ingredients: Dictionary[Types.ingredient_type,int] = {Types.ingred
 signal clear_ingredients
 
 func _ready() -> void:
-	init = true
 	ingredient_zero_point = $Ham.position
 	$IngredientSelections.set_mode(Types.menu_modes.grid)
 	$IngredientSelections.set_cols(5)
@@ -52,8 +50,42 @@ func _ready() -> void:
 	$Sandwich1.orderup.connect($SpecialsBoard.score)
 	$Sandwich1.orderup.connect(orderup_sound)
 	$Sandwich1.orderup.connect(replenish_ingredients)
+	$Sandwich2.orderup.connect($SpecialsBoard.score)
+	$Sandwich2.orderup.connect(orderup_sound)
+	$Sandwich2.orderup.connect(replenish_ingredients)
+	$Sandwich3.orderup.connect($SpecialsBoard.score)
+	$Sandwich3.orderup.connect(orderup_sound)
+	$Sandwich3.orderup.connect(replenish_ingredients)
+	$MainMenu/Control/MenuButtons/Play.grab_focus()
+	$HowTo.hide()
+	play_music(waiting_bg_music)
 	add_ingredient_points()
 	add_sandwich_points()
+
+# change game state if change is expected, with included side effects
+func transition_state(new: Types.game_state) -> void:
+	var _old: Types.game_state = game_state
+	match new:
+		Types.game_state.MAIN_MENU:
+			if _old == Types.game_state.HOW_TO:
+				$HowTo.hide() # tween howto on/off the screen
+				$MainMenu.show()
+			pass # maybe change game music, reset game state, no check
+		Types.game_state.HOW_TO:
+			if _old == Types.game_state.MAIN_MENU:
+				$MainMenu.hide() # tween howto on/off the screen
+				$HowTo.show()
+		Types.game_state.GAME:
+			# change music, tween main menu content away, and THEN:
+			$MainMenu.hide()
+			stop_music()
+			init_items()
+			pass
+		Types.game_state.RESULTS:
+			# maybe change game music, check FROM: GAME, tween in the receipt
+			pass
+	game_state = new
+
 
 func orderup_sound(_order: Order) -> void:
 	play_sfx(plate_sfx)
@@ -73,11 +105,8 @@ func _order_up_play(_t: Timer):
 	remove_child(_t)
 
 func _process(_delta: float) -> void:
-	if init:
-		init_items()
-		init = false
 	
-	if not selecting:
+	if game_state == Types.game_state.GAME and not selecting:
 		if tween:
 			selected_label.modulate = Color.WHITE
 			tween.kill()
@@ -87,6 +116,19 @@ func init_items() -> void:
 	# Reset all ingredients nodes to zero and add the starting ingredients
 	clear_ingredients.emit()
 	$InitDelayTimer.start()
+
+func play() -> void:
+	transition_state(Types.game_state.GAME)
+
+func how_to() -> void:
+	transition_state(Types.game_state.HOW_TO)
+
+func close_howto() -> void:
+	if game_state == Types.game_state.HOW_TO:
+		transition_state(Types.game_state.MAIN_MENU)
+
+func quit_game() -> void:
+	get_tree().quit(0)
 
 # increase one of the ingredient source stacks by one
 func plus_ingredient() -> void:
@@ -327,9 +369,12 @@ func _on_replenish_timer_timeout() -> void:
 		$ReplenishmentTimer.stop()
 		selecting = true
 
-func play_music(music: Resource) -> void:
+func stop_music() -> void:
 	if $BGMusicPlayer.playing:
 		$BGMusicPlayer.stop()
+
+func play_music(music: Resource) -> void:
+	stop_music()
 	$BGMusicPlayer.stream = music
 	$BGMusicPlayer.play()
 

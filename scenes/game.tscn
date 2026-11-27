@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cmg316inuai46"]
 
 [ext_resource type="Script" uid="uid://d0w2bqiy574k7" path="res://scenes/game.gd" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://cvdisf0jfq24h" path="res://assets/img/logo.png" id="2_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://13vmkbjjbq1i" path="res://assets/img/bg2.png" id="2_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://bvbys6va5yhll" path="res://scenes/ingredients.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cittag0rf6vsh" path="res://fab/sandwich.tscn" id="4_lbhrr"]
@@ -9,12 +10,23 @@
 [ext_resource type="Texture2D" uid="uid://doiexqtenywp8" path="res://assets/img/sandwich2.png" id="7_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://o7jk8fm8qs4d" path="res://scenes/whiteboard.tscn" id="8_gee14"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s3x7s"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_s3x7s"]
+thickness = 2
+vertical = true
+
 [node name="Game" type="Node2D" unique_id=2055669766]
 script = ExtResource("1_uwrxv")
 
 [node name="BG" type="Sprite2D" parent="." unique_id=1320374319]
 texture = ExtResource("2_u5sy4")
 centered = false
+metadata/_edit_lock_ = true
 
 [node name="Labels" type="CanvasGroup" parent="BG" unique_id=1997924116]
 
@@ -169,6 +181,7 @@ mode = 2
 grid_columns = 5
 cursor_texture = ExtResource("7_u5sy4")
 cursor_default_region = Rect2(171, 66, 74, 96)
+metadata/_edit_lock_ = true
 
 [node name="BGMusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1070563403]
 volume_db = -6.0
@@ -182,10 +195,139 @@ grid_columns = 3
 cursor_offset = Vector2(0, -150)
 cursor_texture = ExtResource("7_u5sy4")
 cursor_default_region = Rect2(36, 3, 148, 31)
+metadata/_edit_lock_ = true
 
 [node name="SpecialsBoard" parent="." unique_id=1391044385 instance=ExtResource("8_gee14")]
 position = Vector2(1162, 406)
 scale = Vector2(2, 3.5)
+metadata/_edit_lock_ = true
+
+[node name="HowTo" type="CanvasLayer" parent="." unique_id=951433865]
+
+[node name="Backdrop" type="ColorRect" parent="HowTo" unique_id=560095890]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.85882354)
+
+[node name="Panel" type="Panel" parent="HowTo" unique_id=1964433942]
+offset_left = 38.0
+offset_top = 40.0
+offset_right = 1246.0
+offset_bottom = 603.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_s3x7s")
+
+[node name="Pg7Header" type="Label" parent="HowTo/Panel" unique_id=288291563]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 8.0
+offset_right = 604.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Employee Handbook, Pg 7"
+horizontal_alignment = 1
+
+[node name="Pg8Header" type="Label" parent="HowTo/Panel" unique_id=2104441443]
+layout_mode = 0
+offset_left = 609.0
+offset_top = 8.0
+offset_right = 1211.0
+offset_bottom = 34.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Employee Handbook, Pg 8"
+horizontal_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="HowTo/Panel" unique_id=1177785879]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -281.5
+offset_right = 5.0
+offset_bottom = 280.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_s3x7s")
+
+[node name="Label" type="RichTextLabel" parent="HowTo/Panel" unique_id=360236821]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 43.0
+offset_right = 594.0
+offset_bottom = 434.0
+bbcode_enabled = true
+text = "[color=black][s]Hey here's how you make sandwiches, yeah. These are the instructions.
+Yup. Multiple lines of sandwich instructions here, yeah. Totally what
+This is. It's sandwich instructions. Which is what this is, because it is. Why
+are you still reading these TOTALLY definitely sandwich instructions?[/s]
+
+Here's the deal kid, you make sandwiches! It's not hard. Grab some ingredients and SLAP 'EM DOWN! to make some FRESH as HECK sandwiches! 
+ -Da Boss"
+
+[node name="Button" type="Button" parent="HowTo" unique_id=1066266062]
+offset_left = 594.0
+offset_top = 633.0
+offset_right = 695.0
+offset_bottom = 686.0
+text = "OK"
+
+[node name="MainMenu" type="CanvasLayer" parent="." unique_id=538020209]
+
+[node name="Backdrop" type="ColorRect" parent="MainMenu" unique_id=1306370244]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.85882354)
+
+[node name="Sprite2D" type="Sprite2D" parent="MainMenu" unique_id=1161881645]
+position = Vector2(644, 169)
+scale = Vector2(2, 2)
+texture = ExtResource("2_0tnpc")
+
+[node name="Control" type="Control" parent="MainMenu" unique_id=493220724]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MenuButtons" type="VBoxContainer" parent="MainMenu/Control" unique_id=765862442]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 417.0
+offset_top = 290.0
+offset_right = 617.0
+offset_bottom = 577.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_constants/separation = 20
+
+[node name="Play" type="Button" parent="MainMenu/Control/MenuButtons" unique_id=1996675971]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+accessibility_name = "Play"
+text = "Play"
+
+[node name="HowTo" type="Button" parent="MainMenu/Control/MenuButtons" unique_id=139744037]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+accessibility_name = "How to play"
+text = "How to play
+"
+
+[node name="Quit" type="Button" parent="MainMenu/Control/MenuButtons" unique_id=769046548]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+accessibility_name = "Quit"
+text = "Quit"
 
 [connection signal="timeout" from="InitDelayTimer" to="." method="_on_init_delay_timer_timeout"]
 [connection signal="timeout" from="ReplenishmentTimer" to="." method="_on_replenish_timer_timeout"]
+[connection signal="pressed" from="HowTo/Button" to="." method="close_howto"]
+[connection signal="pressed" from="MainMenu/Control/MenuButtons/Play" to="." method="play"]
+[connection signal="pressed" from="MainMenu/Control/MenuButtons/HowTo" to="." method="how_to"]
+[connection signal="pressed" from="MainMenu/Control/MenuButtons/Quit" to="." method="quit_game"]
